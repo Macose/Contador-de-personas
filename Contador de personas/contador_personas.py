@@ -51,7 +51,6 @@ with mss.mss() as sct:
     while True:
         frame = np.array(sct.grab(monitor))
         frame = cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
-        video_writer.write(frame)
 
         results = model(frame, verbose=False)[0]
         frame_counter = Counter()
@@ -119,6 +118,8 @@ with mss.mss() as sct:
             y = 70 + row * row_height
             cv2.putText(panel, text, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.6, get_color(label), 2)
 
+        video_writer.write(frame)
+        
         cv2.imshow("Detección", frame)
         cv2.imshow("Panel de conteo", panel)
 
@@ -149,4 +150,5 @@ s = total_runtime % 60
 print(f"Tiempo total de ejecución: {h:02}:{m:02}:{s:02}")
 
 cv2.destroyAllWindows()
+
 video_writer.release()
